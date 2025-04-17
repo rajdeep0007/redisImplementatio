@@ -1,0 +1,5 @@
+com/example/cachingdemo/entity/Product.class
+com/example/cachingdemo/CachingDemoApplication.class
+com/example/cachingdemo/controller/ProductController.class
+com/example/cachingdemo/service/ProductService.class
+com/example/cachingdemo/repository/ProductRepository.class

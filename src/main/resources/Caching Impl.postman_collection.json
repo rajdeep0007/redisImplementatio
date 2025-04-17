@@ -1,0 +1,46 @@
+{
+	"info": {
+		"_postman_id": "3c056a76-6452-4869-9794-651a25a99770",
+		"name": "Caching Impl",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6697343"
+	},
+	"item": [
+		{
+			"name": "Add product",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "GET call to fetch product using ID",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "GET call to fetch data in the cache",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/cache/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cache",
+						"products"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
