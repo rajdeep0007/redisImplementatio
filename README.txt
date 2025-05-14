@@ -94,3 +94,4 @@ CacheInterceptor -> CacheAspectSupport -> ConcurrentMapCacheManager
 If we are doing a GET call then initially spring boot will check whether any other caching library is implemented or not. If there is no clashing implemented,  default concurrent map is used.
 
 When the data is fetched from the database before returning this data to the client, the map gets updated with this particular value.
+
