@@ -13,6 +13,12 @@ public class ProductController {
     @Autowired
     private ProductService service;
 
+    @PostMapping("/cache")
+    public String cacheProduct(@RequestBody Product product, @RequestParam long ttl) {
+        service.cacheProductWithTTL(product, ttl);
+        return "Product cached with TTL " + ttl + "s";
+    }
+
     @GetMapping("/{id}")
     public Product getProduct(@PathVariable Long id) {
         return service.getProduct(id);
