@@ -13,16 +13,16 @@ import java.util.concurrent.ConcurrentMap;
 @Slf4j
 public class CacheDebugController {
 
-    @Autowired
-    private CacheManager cacheManager;
-
-    @GetMapping("/cache/products")
-    public Object getCachedProducts() {
-        Cache cache = cacheManager.getCache("products");
-        if (cache != null && cache.getNativeCache() instanceof ConcurrentMap) {
-            log.info("the value is retrieve from the cache");
-            return ((ConcurrentMap<?, ?>) cache.getNativeCache()).toString();
-        }
-        return "No data in cache or unsupported cache type.";
-    }
+//    @Autowired
+//    private CacheManager cacheManager;
+//
+//    @GetMapping("/cache/products")
+//    public Object getCachedProducts() {
+//        Cache cache = cacheManager.getCache("products");
+//        if (cache != null && cache.getNativeCache() instanceof ConcurrentMap) {
+//            log.info("the value is retrieve from the cache");
+//            return ((ConcurrentMap<?, ?>) cache.getNativeCache()).toString();
+//        }
+//        return "No data in cache or unsupported cache type.";
+//    }
 }

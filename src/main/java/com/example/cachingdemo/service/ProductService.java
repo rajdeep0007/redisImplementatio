@@ -15,12 +15,19 @@ public class ProductService {
     @Autowired
     private ProductRepository repository;
 
-    @Cacheable("products")
-    public Product getProduct(Long id) {
+   // #result refers to the return value of the method (available in unless, not in key).
+    //unless means: "don't cache if this condition is true"
+   @Cacheable(value = "products", unless = "#result == null or #result.price < 100000")
+   public Product getProduct(Long id) {
         log.info("the value is retrieve from the database");
         return repository.findById(id).orElse(null);
     }
 
+    @Cacheable(
+            value = "products",
+            key = "#product.name",
+            condition = "#product.price > 100000"
+    )
     public Product createProduct(Product product) {
         return repository.save(product);
     }

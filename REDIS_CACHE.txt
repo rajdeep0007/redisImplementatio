@@ -1,0 +1,55 @@
+Code changes that needs to be done to adapt Redis Server instead of In-Memory caching
+
+1)Include server properties in property file
+spring.cache.type=redis
+spring.cache.host=localhost
+spring.cache.port=6379
+spring.cache.redis.time-to-live=60000
+
+2)Bring in dependency
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-redis</artifactId>
+</dependency>
+
+3)Create configuration to control Redis Configs like TTL/Expiry
+@Bean
+public RedisCacheConfiguration cacheConfiguration() {
+    return RedisCacheConfiguration.defaultCacheConfig()
+            .entryTtl(Duration.ofMinutes(60))
+            .disableCachingNullValues()
+            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer
+            (new GenericJackson2JsonRedisSerializer()));
+}
+
+We need configure the serializer during saving the data in the cache , as Data in Redis is stored as binary blobs
+(not human-readable).
+the default one is JdkSerializationRedisSerializer but we have used GenericJackson2JsonRedisSerializer
+
+4)Test how we can do conditional Caching using "unless" and "condition"
+
+// #result refers to the return value of the method (available in unless, not in key).
+// unless means: "don't cache if this condition is true"
+@Cacheable(value = "products", unless = "#result == null or #result.price < 100000")
+public Product getProduct(Long id) {
+    log.info("the value is retrieve from the database");
+    return repository.findById(id).orElse(null);
+}
+
+5)while using condition please ensure to provide the key else we might get an exception like below since Redis tries to
+use the whole object as key.
+
+ Cannot convert cache key com.example.cachingdemo.entity.Product to String; Please register a suitable Converter via
+ 'RedisCacheConfiguration.configureKeyConverters(...)' or override 'com.example.cachingdemo.entity.Product.toString()'
+
+Solution :
+@Cacheable(
+    value = "products",
+    key = "#product.name",
+    condition = "#product.price > 100000"
+ )
+public Product createProduct(Product product) {
+    return repository.save(product);
+}
+
+
